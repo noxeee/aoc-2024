@@ -1,7 +1,5 @@
 import kotlin.io.path.Path
 import kotlin.io.path.readText
-import kotlin.math.abs
-import kotlin.time.times
 
 fun main() {
     fun solve(mulStr: String) {
