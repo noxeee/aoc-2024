@@ -1,11 +1,8 @@
 import kotlin.io.path.Path
 import kotlin.io.path.readText
+import kotlin.time.measureTime
 
 fun main() {
-    fun solve(mulStr: String) {
-
-    }
-
     fun part1(input: String): Int {
         input.println();
         val regex = """mul\((?<num1>\d+),(?<num2>\d+)\)""".toRegex()
@@ -45,12 +42,11 @@ fun main() {
             if (matchResult1.value.contains("mul") && do_mul) {
                 val num1 = matchResult1.groups["num1"]?.value?.toIntOrNull();
                 val num2 = matchResult1.groups["num2"]?.value?.toIntOrNull();
-                println("match: ${matchResult1.groupValues}");
+                //println("match: ${matchResult1.groupValues}");
                 if (num1 != null && num2 != null) {
                     sum += num1 * num2;
                 }
             }
-
         }
         return sum;
     }
@@ -64,8 +60,8 @@ fun main() {
     //testInput.forEach{i -> println("line "); i.println()};
     println("multiplication result:");
     //testInput.forEach{i -> part1(i).println()};
-    part1(testInput.joinToString("")).println();
+    measureTime { part1(testInput.joinToString("")).println() }.println()
     println("part2")
     part2(testInputPartTwo).println();
-    part2(testInput.joinToString("")).println();
+    measureTime { part2(testInput.joinToString("")).println() }.println()
 }

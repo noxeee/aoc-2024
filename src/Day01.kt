@@ -1,3 +1,5 @@
+import kotlin.time.measureTime
+
 fun main() {
     fun part1(input: List<String>): Int {
         // Or read a large test input from the `src/Day01_test.txt` file:
@@ -9,27 +11,27 @@ fun main() {
             leftList.add(split.get(0).toInt());
             rightList.add(split.get(1).toInt());
         }
-        print("Left list");
-        leftList.println();
-        print("right list");
-        rightList.println();
+//        print("Left list");
+//        leftList.println();
+//        print("right list");
+//        rightList.println();
 
         leftList.sort();
         rightList.sort();
 
-        println("sorted list");
-        leftList.println();
+//        println("sorted list");
+//        leftList.println();
 
         var sum : Int = 0;
         while (!leftList.isEmpty() and !rightList.isEmpty()) {
             var diff = leftList.first().minus(rightList.first());
-            println("diff with negatives");
-            println(diff);
+//            println("diff with negatives");
+//            println(diff);
             if (diff < 0) {
                 diff *= -1;
             }
-            println("diff after * -1");
-            println(diff);
+//            println("diff after * -1");
+//            println(diff);
             sum = sum.plus(diff);
             rightList.removeFirst();
             leftList.removeFirst();
@@ -47,32 +49,28 @@ fun main() {
                 leftList.add(split.get(0).toInt());
                 rightList.add(split.get(1).toInt());
             }
-            print("Left list");
-            leftList.println();
-            print("right list");
-            rightList.println();
+//            print("Left list");
+//            leftList.println();
+//            print("right list");
+//            rightList.println();
 
             leftList.sort();
             rightList.sort();
 
-            println("sorted list");
-            leftList.println();
+//            println("sorted list");
+//            leftList.println();
 
             var sum : Int = 0;
             while (!leftList.isEmpty()) {
                 var occ = rightList.count{it == leftList.first()};
-                //print(leftList.removeFirst() * occ);
                 sum = sum.plus(leftList.removeFirst() * occ);
             }
             return sum;
     }
 
-    // Test if implementation meets criteria from the description, like:
-    //check(part1(listOf("test_input")) == 1)
-
     val testInput = readInput("Day01")
     //val testInput = readInput("exampleInput");
     println("final distance");
-    //part1(testInput).println();
-    part2(testInput).println();
+    measureTime { part1(testInput).println() }.println()
+    measureTime { part2(testInput).println() }.println()
 }

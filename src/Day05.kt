@@ -1,7 +1,5 @@
-import kotlin.io.path.Path
-import kotlin.io.path.readText
-import kotlin.math.ceil
 import kotlin.math.floor
+import kotlin.time.measureTime
 
 fun main() {
     fun get_middle_page(pages: List<Int>): Int {
@@ -22,7 +20,7 @@ fun main() {
     }
 
     fun part1(input: List<String>): Int {
-        input.println();
+//        input.println();
         val endIndex = input.indexOfFirst { i -> i.isEmpty() }
         val ordering_rules = input.subList(0, endIndex).map { i ->
             i.split("|").map { j -> j.toInt() }
@@ -60,12 +58,12 @@ fun main() {
             }
         }
 
-        pagesMut.println()
+//        pagesMut.println()
         return pagesMut.toList();
     }
 
     fun part2(input: List<String>): Int {
-        input.println();
+//        input.println();
         val endIndex = input.indexOfFirst { i -> i.isEmpty() }
         val ordering_rules = input.subList(0, endIndex).map { i ->
             i.split("|").map { j -> j.toInt() }
@@ -73,17 +71,17 @@ fun main() {
         val pages = input.subList(endIndex + 1, input.size).map { i ->
             i.split(",").map { j -> j.toInt() }
         };
-        ordering_rules.println()
-        pages.println()
+//        ordering_rules.println()
+//        pages.println()
 
         // get the correct pages according to rules
         val filtered_pages = pages.filter { p ->
             rules_apply(p, ordering_rules);
         }
 
-        println("FILTERED PAGES")
-        pages.println()
-        pages.minus(filtered_pages).println()
+//        println("FILTERED PAGES")
+//        pages.println()
+//        pages.minus(filtered_pages).println()
 
         // order the incorrect ones
         println("ORDERED PAGES")
@@ -94,7 +92,7 @@ fun main() {
     //val testInput = readInput("exampleInput");
 
     println("result part 1:");
-    part1(testInput).println();
+    measureTime { part1(testInput).println() }.println()
     println("result part2")
-    part2(testInput).println();
+    measureTime { part2(testInput).println() }.println()
 }
