@@ -2,7 +2,7 @@ import kotlin.time.measureTime
 
 fun main() {
     fun getCoordinates(input: List<String>): HashMap<Char, MutableList<Pair<Int, Int>>> {
-        var coordsMap = hashMapOf<Char, MutableList<Pair<Int, Int>>>()
+        val coordsMap = hashMapOf<Char, MutableList<Pair<Int, Int>>>()
         input.forEachIndexed { rowNum, row ->
             row.forEachIndexed { colNum, col ->
                 if (coordsMap[col].isNullOrEmpty()) {
@@ -19,15 +19,15 @@ fun main() {
         pointA: Pair<Int, Int>,
         pointB: Pair<Int, Int>
     ): List<Pair<Int, Int>> {
-        var distance = Pair(pointA.first - pointB.first, pointA.second - pointB.second)
-        var negAntinode = Pair(pointA.first + distance.first, pointA.second + distance.second)
-        var posAntinode = Pair(pointB.first + distance.first * -1, pointB.second + distance.second * -1)
-        println("pointA ${pointA} pointB ${pointB} distance ${distance} negAntinode ${negAntinode} posAntinode ${posAntinode}")
+        val distance = Pair(pointA.first - pointB.first, pointA.second - pointB.second)
+        val negAntinode = Pair(pointA.first + distance.first, pointA.second + distance.second)
+        val posAntinode = Pair(pointB.first + distance.first * -1, pointB.second + distance.second * -1)
+        println("pointA $pointA pointB $pointB distance $distance negAntinode $negAntinode posAntinode $posAntinode")
         return listOf(negAntinode, posAntinode)
     }
 
     fun Pair<Int, Int>.withinBounds(ySz: Int, xSz: Int): Boolean {
-        return this.first in 0..ySz - 1 && this.second in 0..xSz - 1
+        return this.first in 0..<ySz && this.second in 0..<xSz
     }
 
     fun placeAntinodesEqually(
@@ -35,8 +35,8 @@ fun main() {
         pointB: Pair<Int, Int>,
         inputSz: Int
     ): List<Pair<Int, Int>> {
-        var antinodes = mutableListOf<Pair<Int, Int>>()
-        var distance = Pair(pointA.first - pointB.first, pointA.second - pointB.second)
+        val antinodes = mutableListOf<Pair<Int, Int>>()
+        val distance = Pair(pointA.first - pointB.first, pointA.second - pointB.second)
 
         // negative antinodes
         var negativeDist = distance
@@ -63,15 +63,16 @@ fun main() {
         }
 
         //println("pointA ${pointA} pointB ${pointB} distance ${distance} negAntinode ${negAntinode} posAntinode ${posAntinode}")
-        println("antinodes for combo ${pointA}, ${pointB} : ${antinodes}")
+        println("antinodes for combo $pointA, $pointB : $antinodes")
         return antinodes
     }
 
+    // FIXME printing the places antinodes doesn't work
     fun createAntinodes(input: List<String>, antinodes: List<Pair<Int, Int>>) {
-        var mutableInput = input.toMutableList()
+        val mutableInput = input.toMutableList()
         antinodes.forEach { node ->
             val str = StringBuilder(mutableInput[node.first])
-            println("before ${mutableInput[node.first]} toString ${str}")
+            println("before ${mutableInput[node.first]} toString $str")
             mutableInput[node.first] = str.setCharAt(node.second, '#').toString()
         }
         mutableInput.forEach { i ->
@@ -88,14 +89,14 @@ fun main() {
     fun part1(input: List<String>): Int {
         input.forEach { i -> i.println() }
         println("input size y rows ${input.size} x cols ${input[0].length}")
-        var sum: Int = 0;
+        var sum = 0
         // create a map of coordinates
-        var coordsMap = getCoordinates(input)
-        var antinodes = mutableListOf<Pair<Int, Int>>()
+        val coordsMap = getCoordinates(input)
+        val antinodes = mutableListOf<Pair<Int, Int>>()
         coordsMap.forEach { (char, coordList) ->
             if (char != '.') {
                 val combos = combos(coordList)
-                println("combos ${combos} for ${char}")
+                println("combos $combos for $char")
                 combos.forEach { coordPair ->
                     sum += placeAntinodes(
                         coordPair[0],
@@ -110,20 +111,20 @@ fun main() {
                 }
             }
         }
-        println("ANTINODES: ${antinodes} sz ${antinodes.distinct().size}")
+        println("ANTINODES: $antinodes sz ${antinodes.distinct().size}")
         //createAntinodes(input, antinodes)
-        return antinodes.distinct().size;
+        return antinodes.distinct().size
     }
 
     fun part2(input: List<String>): Int {
-        var sum: Int = 0;
+        var sum = 0
         // create a map of coordinates
-        var coordsMap = getCoordinates(input)
-        var antinodes = mutableListOf<Pair<Int, Int>>()
+        val coordsMap = getCoordinates(input)
+        val antinodes = mutableListOf<Pair<Int, Int>>()
         coordsMap.forEach { (char, coordList) ->
             if (char != '.') {
                 val combos = combos(coordList)
-                println("combos ${combos} for ${char}")
+                println("combos $combos for $char")
                 combos.forEach { coordPair ->
                     sum += placeAntinodesEqually(
                         coordPair[0],
@@ -138,9 +139,9 @@ fun main() {
                 }
             }
         }
-        println("ANTINODES: ${antinodes} sz ${antinodes.distinct().size}")
+        println("ANTINODES: $antinodes sz ${antinodes.distinct().size}")
         //createAntinodes(input, antinodes)
-        val antennas = coordsMap.filterKeys { key -> key != '.' }.values.flatMap { list -> list }
+        val antennas = coordsMap.filterKeys { key -> key != '.' }.values.flatten()
         println("antennas ${antennas.size}")
         return (antinodes + antennas).distinct().size
     }
